@@ -14,7 +14,7 @@ export const getStaticPaths = (async () => {
 
 const { book } = Astro.props
 const { data, slug } = book
-const { title, img } = data
+const { title, author, img, buy } = data
 
 const { Content } = await render(book)
 
@@ -32,7 +32,7 @@ export const prerender = true
           </BookScore>
 
           {
-            SHOW_BUY_BUTTON && <p id="score" />
+            SHOW_BUY_BUTTON && <BuyButton server:defer buy={buy} />
           }
         </aside>
     
