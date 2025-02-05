@@ -1,4 +1,5 @@
 ---
+import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import BuyButton from "../../components/BuyButton.astro";
@@ -24,7 +25,7 @@ const { Content } = await render(book)
           <img transition:name={`img-${slug}`} class="rounded w-72 h-auto" src={`/${img}`} alt={title} />
 
           {
-            SHOW_BUY_BUTTON && <BuyButton server:defer buy={buy} />
+            SHOW_BUY_BUTTON && <p id="score" />
           }
         </aside>
     
@@ -36,3 +37,16 @@ const { Content } = await render(book)
         </main>
       </div>
 </Layout>
+
+<script>
+  import { SCORE_API_ENDPOINT } from "astro:env/client";
+
+  const scoreElement = document.querySelector('#score')
+
+  fetch(SCORE_API_ENDPOINT).then(res=>res.text()).then(scoreValue=>{
+    if(scoreElement){
+      scoreElement.innerHTML = `Puntacion: ${scoreValue.trim()}/5`
+    }
+  })
+
+</script>
